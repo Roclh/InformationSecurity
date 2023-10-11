@@ -12,19 +12,16 @@ import static org.junit.Assert.assertFalse;
 public class CesarWithKeyWordEncoding implements Encoding {
 
     private final int offset;
-    private final String russianKeyword;
-    private final String englishKeyword;
-
     private final String russianAlphabet;
     private final String englishAlphabet;
 
     public CesarWithKeyWordEncoding(int offset, String keyword) {
         assertFalse("Keyword contains identical symbols!", EncodingUtils.containsIdenticalSymbols(keyword.toLowerCase()));
         this.offset = offset;
-        this.russianKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.RUSSIAN);
-        this.englishKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.ENGLISH);
-        this.russianAlphabet = insertKeyword(RUSSIAN_ALPHABET_SYMBOLS, this.russianKeyword, offset);
-        this.englishAlphabet = insertKeyword(ENGLISH_ALPHABET_SYMBOLS, this.englishKeyword, offset);
+        String russianKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.RUSSIAN);
+        String englishKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.ENGLISH);
+        this.russianAlphabet = insertKeyword(RUSSIAN_ALPHABET_SYMBOLS, russianKeyword, offset);
+        this.englishAlphabet = insertKeyword(ENGLISH_ALPHABET_SYMBOLS, englishKeyword, offset);
     }
 
     @Override
