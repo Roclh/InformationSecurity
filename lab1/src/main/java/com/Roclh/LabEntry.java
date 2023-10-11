@@ -2,14 +2,13 @@ package com.Roclh;
 
 import com.Roclh.coding.CesarWithKeyWordEncoding;
 import com.Roclh.coding.Encoding;
-import com.Roclh.utils.EncodingUtils;
 import com.Roclh.utils.FileReader;
 
 import java.util.Map;
 
 public class LabEntry {
     public static void main(String... args) {
-        Encoding cesarEncoding = new CesarWithKeyWordEncoding(5, "Что", EncodingUtils.Language.RUSSIAN);
+        Encoding cesarEncoding = new CesarWithKeyWordEncoding(5, "Чтоsmth");
         String text = FileReader.readAllFile("FutureCoding.txt");
         String codedFile = cesarEncoding.code(text);
         String encodedFile = cesarEncoding.encode(codedFile);

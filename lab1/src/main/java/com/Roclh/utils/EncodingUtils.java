@@ -1,7 +1,12 @@
 package com.Roclh.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 public class EncodingUtils {
     public static final String RUSSIAN_ALPHABET_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
@@ -41,18 +46,32 @@ public class EncodingUtils {
         return false;
     }
 
+    public static String extractSumbols(String text, Language language){
+        return text.chars().mapToObj(String::valueOf).filter(language.alphabet::contains).collect(Collector.of(
+                StringBuilder::new,
+                StringBuilder::append,
+                StringBuilder::append,
+                StringBuilder::toString));
+    }
+
     public enum Language {
-        RUSSIAN("Russian"),
-        ENGLISH("English");
+        RUSSIAN("Russian", RUSSIAN_ALPHABET_SYMBOLS),
+        ENGLISH("English", ENGLISH_ALPHABET_SYMBOLS);
 
         private final String text;
+        private final String alphabet;
 
-        Language(String text) {
+        Language(String text, String alphabet) {
             this.text = text;
+            this.alphabet = alphabet;
         }
 
         public String text() {
             return this.text;
+        }
+
+        public String getAlphabet(){
+            return this.alphabet;
         }
 
     }

@@ -4,22 +4,27 @@ import com.Roclh.utils.EncodingUtils;
 
 import static com.Roclh.utils.EncodingUtils.ENGLISH_ALPHABET_SYMBOLS;
 import static com.Roclh.utils.EncodingUtils.RUSSIAN_ALPHABET_SYMBOLS;
+import static com.Roclh.utils.EncodingUtils.isEnglish;
+import static com.Roclh.utils.EncodingUtils.isRussian;
 import static com.Roclh.utils.EncodingUtils.isSpecialSymbol;
 import static org.junit.Assert.assertFalse;
 
 public class CesarWithKeyWordEncoding implements Encoding {
 
     private final int offset;
-    private final String keyword;
+    private final String russianKeyword;
+    private final String englishKeyword;
 
-    private String alphabet;
+    private final String russianAlphabet;
+    private final String englishAlphabet;
 
-    public CesarWithKeyWordEncoding(int offset, String keyword, EncodingUtils.Language language) {
+    public CesarWithKeyWordEncoding(int offset, String keyword) {
         assertFalse("Keyword contains identical symbols!", EncodingUtils.containsIdenticalSymbols(keyword.toLowerCase()));
         this.offset = offset;
-        this.keyword = keyword.toLowerCase();
-        this.alphabet = insertKeyword(language.equals(EncodingUtils.Language.RUSSIAN) ? RUSSIAN_ALPHABET_SYMBOLS : ENGLISH_ALPHABET_SYMBOLS,
-                this.keyword, offset);
+        this.russianKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.RUSSIAN);
+        this.englishKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.ENGLISH);
+        this.russianAlphabet = insertKeyword(RUSSIAN_ALPHABET_SYMBOLS, this.russianKeyword, offset);
+        this.englishAlphabet = insertKeyword(ENGLISH_ALPHABET_SYMBOLS, this.englishKeyword, offset);
     }
 
     @Override
@@ -29,10 +34,18 @@ public class CesarWithKeyWordEncoding implements Encoding {
             if (!isSpecialSymbol(character)) {
                 char newCharacter;
                 boolean isUpperCase = Character.isUpperCase(character);
-                int originalAlphabetPosition = alphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
-                int newAlphabetPosition = (originalAlphabetPosition + offset) % alphabet.length();
-                newCharacter = alphabet.charAt(newAlphabetPosition);
-                result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
+                if (isRussian(character)) {
+                    int originalAlphabetPosition = russianAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
+                    int newAlphabetPosition = (originalAlphabetPosition + offset) % russianAlphabet.length();
+                    newCharacter = russianAlphabet.charAt(newAlphabetPosition);
+                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
+                }
+                if(isEnglish(character)){
+                    int originalAlphabetPosition = englishAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
+                    int newAlphabetPosition = (originalAlphabetPosition + offset) % englishAlphabet.length();
+                    newCharacter = englishAlphabet.charAt(newAlphabetPosition);
+                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
+                }
             } else {
                 result.append(character);
             }
@@ -47,10 +60,18 @@ public class CesarWithKeyWordEncoding implements Encoding {
             if (!isSpecialSymbol(character)) {
                 char newCharacter;
                 boolean isUpperCase = Character.isUpperCase(character);
-                int originalAlphabetPosition = alphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
-                int newAlphabetPosition = (originalAlphabetPosition + (alphabet.length() - offset)) % alphabet.length();
-                newCharacter = alphabet.charAt(newAlphabetPosition);
-                result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
+                if(isRussian(character)){
+                    int originalAlphabetPosition = russianAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
+                    int newAlphabetPosition = (originalAlphabetPosition + (russianAlphabet.length() - offset)) % russianAlphabet.length();
+                    newCharacter = russianAlphabet.charAt(newAlphabetPosition);
+                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
+                }
+                if(isEnglish(character)){
+                    int originalAlphabetPosition = englishAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
+                    int newAlphabetPosition = (originalAlphabetPosition + (englishAlphabet.length() - offset)) % englishAlphabet.length();
+                    newCharacter = englishAlphabet.charAt(newAlphabetPosition);
+                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
+                }
             } else {
                 result.append(character);
             }
