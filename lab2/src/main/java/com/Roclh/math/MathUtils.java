@@ -32,11 +32,11 @@ public class MathUtils {
         }
     }
 
-    public static int reversedExponent(long t, long sqrt_w, long e, boolean log) {
+    public static long reversedExponent(long t, long sqrt_w, long e, boolean log) {
         long p = t + sqrt_w;
         long q = t - sqrt_w;
         long phi = (p - 1) * (q - 1);
-        int d = BigInteger.valueOf(e).modInverse(BigInteger.valueOf(phi)).intValue();
+        long d = BigInteger.valueOf(e).modInverse(BigInteger.valueOf(phi)).longValue();
         if(log) {
             System.out.printf("p = t + sqrt(w) = %d + %d = %d\n", t, sqrt_w, p);
             System.out.printf("q = t - sqrt(w) = %d + %d = %d\n", t, sqrt_w, q);
@@ -46,11 +46,10 @@ public class MathUtils {
         return d;
     }
 
-    public static int pherma(long N, long e, boolean log) {
+    public static long pherma(long N, long e, boolean log) {
         Pair<Long, Long> closestSquare = closestSquare(N, log);
         return reversedExponent(closestSquare.right(), closestSquare.left(), e, log);
     }
-
 
     private static boolean isRound(double number) {
         return number % 1 == 0;
