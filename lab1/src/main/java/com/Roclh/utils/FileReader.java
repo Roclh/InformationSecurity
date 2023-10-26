@@ -3,6 +3,7 @@ package com.Roclh.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +45,6 @@ public class FileReader {
     public static Map<String, Integer> countEntrances(String text) {
         Map<String, Integer> entrances = new HashMap<>();
         for (char c : text.toCharArray()) {
-            if(isSpecialSymbol(c)) continue;
             String key = String.valueOf(c);
             entrances.merge(key, 1, Integer::sum);
         }

@@ -2,14 +2,16 @@ package com.Roclh.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class EncodingUtils {
     public static final String RUSSIAN_ALPHABET_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
 
     public static final String ENGLISH_ALPHABET_SYMBOLS = "abcdefghijklmnopqrstuvwxyz";
 
-    public static final String SPECIAL_SYMBOLS = " .,/\\\r\n[]{}~!@#$%^&*()";
+    public static final String SPECIAL_SYMBOLS = " .,/\\\r\n[]{}~!@#$%^&*;?:()—-\"'`«";
 
     public static final int RUSSIAN_ALPHABET_SYMBOL_AMOUNT = 33;
 
@@ -70,5 +72,14 @@ public class EncodingUtils {
             return this.alphabet;
         }
 
+    }
+
+    public static String buildAlphabet(Set<String> symbols){
+        String extraSymbols = symbols.stream()
+                .filter(s -> !RUSSIAN_ALPHABET_SYMBOLS.contains(s) && !RUSSIAN_ALPHABET_SYMBOLS.toUpperCase().contains(s))
+                .filter(s -> !ENGLISH_ALPHABET_SYMBOLS.contains(s) && !ENGLISH_ALPHABET_SYMBOLS.toUpperCase().contains(s))
+                .filter(s -> !SPECIAL_SYMBOLS.contains(s))
+                .collect(Collectors.joining());
+        return RUSSIAN_ALPHABET_SYMBOLS + ENGLISH_ALPHABET_SYMBOLS + SPECIAL_SYMBOLS + extraSymbols;
     }
 }

@@ -1,6 +1,7 @@
 package com.Roclh.math;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class MathUtils {
 
@@ -31,11 +32,11 @@ public class MathUtils {
         }
     }
 
-    public static long reversedExponent(long t, long sqrt_w, long e, boolean log) {
+    public static int reversedExponent(long t, long sqrt_w, long e, boolean log) {
         long p = t + sqrt_w;
         long q = t - sqrt_w;
         long phi = (p - 1) * (q - 1);
-        long d = (long)(Math.pow(e, -1) % phi);
+        int d = BigInteger.valueOf(e).modInverse(BigInteger.valueOf(phi)).intValue();
         if(log) {
             System.out.printf("p = t + sqrt(w) = %d + %d = %d\n", t, sqrt_w, p);
             System.out.printf("q = t - sqrt(w) = %d + %d = %d\n", t, sqrt_w, q);
@@ -45,7 +46,7 @@ public class MathUtils {
         return d;
     }
 
-    public static long pherma(long N, long e, boolean log) {
+    public static int pherma(long N, long e, boolean log) {
         Pair<Long, Long> closestSquare = closestSquare(N, log);
         return reversedExponent(closestSquare.right(), closestSquare.left(), e, log);
     }

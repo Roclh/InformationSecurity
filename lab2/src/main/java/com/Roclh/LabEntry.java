@@ -3,6 +3,7 @@ package com.Roclh;
 import com.Roclh.math.MathUtils;
 import com.Roclh.utils.FileReader;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -22,12 +23,12 @@ public class LabEntry {
     public static void main(String... args) {
         String Ctext = FileReader.readAllFile("C11.txt");
         List<Long> C = Arrays.stream(Ctext.split("\r\n")).map(Long::valueOf).toList();
-        long pherma = MathUtils.pherma(N12, e12, true);
+        int pherma = MathUtils.pherma(N12, e12, true);
         AtomicInteger iterator = new AtomicInteger(0);
         String result = C.stream()
                 .map(c -> {
-                    long code = (long) Math.pow(c, pherma) % N12;
-                    String phrase = new String(ByteBuffer.allocate(8).putLong(code).array(), Charset.forName("windows-1251"));
+                    long code = BigInteger.valueOf(c).pow(pherma).mod(BigInteger.valueOf(N12)).longValue();
+                    String phrase = new String(ByteBuffer.allocate(Long.BYTES).putLong(code).array(), Charset.forName("windows-1251"));
                     System.out.printf("c = C[%d]^d mod N = %d^%d mod %d = %d => %s\n", iterator.getAndIncrement(), c, pherma, N12, code, phrase);
                     return phrase;
                 }).collect(Collectors.joining());

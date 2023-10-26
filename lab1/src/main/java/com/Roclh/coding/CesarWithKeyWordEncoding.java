@@ -12,40 +12,25 @@ import static org.junit.Assert.assertFalse;
 public class CesarWithKeyWordEncoding implements Encoding {
 
     private final int offset;
-    private final String russianAlphabet;
-    private final String englishAlphabet;
+    private final String alphabet;
 
-    public CesarWithKeyWordEncoding(int offset, String keyword) {
+    public CesarWithKeyWordEncoding(String alphabet, int offset, String keyword) {
         assertFalse("Keyword contains identical symbols!", EncodingUtils.containsIdenticalSymbols(keyword.toLowerCase()));
         this.offset = offset;
-        String russianKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.RUSSIAN);
-        String englishKeyword = EncodingUtils.extractSumbols(keyword.toLowerCase(), EncodingUtils.Language.ENGLISH);
-        this.russianAlphabet = insertKeyword(RUSSIAN_ALPHABET_SYMBOLS, russianKeyword, offset);
-        this.englishAlphabet = insertKeyword(ENGLISH_ALPHABET_SYMBOLS, englishKeyword, offset);
+        this.alphabet = insertKeyword(alphabet, keyword.toLowerCase(), offset);
+        System.out.println(alphabet);
     }
 
     @Override
     public String code(String text) {
         StringBuilder result = new StringBuilder();
         for (char character : text.toCharArray()) {
-            if (!isSpecialSymbol(character)) {
-                char newCharacter;
-                boolean isUpperCase = Character.isUpperCase(character);
-                if (isRussian(character)) {
-                    int originalAlphabetPosition = russianAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
-                    int newAlphabetPosition = (originalAlphabetPosition + offset) % russianAlphabet.length();
-                    newCharacter = russianAlphabet.charAt(newAlphabetPosition);
-                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
-                }
-                if(isEnglish(character)){
-                    int originalAlphabetPosition = englishAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
-                    int newAlphabetPosition = (originalAlphabetPosition + offset) % englishAlphabet.length();
-                    newCharacter = englishAlphabet.charAt(newAlphabetPosition);
-                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
-                }
-            } else {
-                result.append(character);
-            }
+            char newCharacter;
+            boolean isUpperCase = Character.isUpperCase(character);
+            int originalAlphabetPosition = alphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
+            int newAlphabetPosition = (originalAlphabetPosition + offset) % alphabet.length();
+            newCharacter = alphabet.charAt(newAlphabetPosition);
+            result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
         }
         return result.toString();
     }
@@ -54,24 +39,12 @@ public class CesarWithKeyWordEncoding implements Encoding {
     public String encode(String codedText) {
         StringBuilder result = new StringBuilder();
         for (char character : codedText.toCharArray()) {
-            if (!isSpecialSymbol(character)) {
-                char newCharacter;
-                boolean isUpperCase = Character.isUpperCase(character);
-                if(isRussian(character)){
-                    int originalAlphabetPosition = russianAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
-                    int newAlphabetPosition = (originalAlphabetPosition + (russianAlphabet.length() - offset)) % russianAlphabet.length();
-                    newCharacter = russianAlphabet.charAt(newAlphabetPosition);
-                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
-                }
-                if(isEnglish(character)){
-                    int originalAlphabetPosition = englishAlphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
-                    int newAlphabetPosition = (originalAlphabetPosition + (englishAlphabet.length() - offset)) % englishAlphabet.length();
-                    newCharacter = englishAlphabet.charAt(newAlphabetPosition);
-                    result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
-                }
-            } else {
-                result.append(character);
-            }
+            char newCharacter;
+            boolean isUpperCase = Character.isUpperCase(character);
+            int originalAlphabetPosition = alphabet.indexOf(isUpperCase ? Character.toLowerCase(character) : character);
+            int newAlphabetPosition = (originalAlphabetPosition + (alphabet.length() - offset)) % alphabet.length();
+            newCharacter = alphabet.charAt(newAlphabetPosition);
+            result.append(isUpperCase ? Character.toUpperCase(newCharacter) : newCharacter);
         }
         return result.toString();
     }
