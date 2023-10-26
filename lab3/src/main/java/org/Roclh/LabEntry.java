@@ -7,12 +7,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.stream.Collectors;
 
-public class Main {
+public class LabEntry {
     private static final long N = 301916099393L;
     private static final long e = 301319L;
 
