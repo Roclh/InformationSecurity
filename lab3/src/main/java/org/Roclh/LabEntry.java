@@ -1,6 +1,8 @@
 package org.Roclh;
 
-import com.Roclh.utils.FileReader;
+
+import org.Roclh.common.encoding.Encode;
+import org.Roclh.common.files.FileReader;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
@@ -23,8 +25,7 @@ public class LabEntry {
                 res = num;
                 num = num.modPow(BigInteger.valueOf(e), BigInteger.valueOf(N));
             }
-            String result = new String(ByteBuffer.allocate(Integer.BYTES).order(ByteOrder.BIG_ENDIAN)
-                    .putInt(res.intValue()).array(), Charset.forName("cp1251"));
+            String result = Encode.cp1251(res.intValue(), ByteOrder.BIG_ENDIAN);
             System.out.print(result);
         });
     }

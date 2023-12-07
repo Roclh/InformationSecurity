@@ -2,6 +2,7 @@ package com.Roclh;
 
 import com.Roclh.math.MathUtils;
 import com.Roclh.utils.FileReader;
+import org.Roclh.common.encoding.Encode;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -30,7 +31,7 @@ public class LabEntry {
         String result = C.stream()
                 .map(c -> {
                     int code = BigInteger.valueOf(c).modPow(BigInteger.valueOf(pherma), BigInteger.valueOf(N12)).intValue();
-                    String phrase = new String(ByteBuffer.allocate(Integer.BYTES).putInt(code).array(), Charset.forName("windows-1251"));
+                    String phrase = Encode.cp1251(code);
                     System.out.printf("c = C[%d]^d mod N = %d^%d mod %d = %d => %s\n", iterator.getAndIncrement(), c, pherma, N12, code, phrase);
                     return phrase;
                 }).collect(Collectors.joining());

@@ -3,7 +3,7 @@ package com.Roclh;
 import com.Roclh.coding.CesarWithKeyWordEncoding;
 import com.Roclh.coding.Encoding;
 import com.Roclh.utils.EncodingUtils;
-import com.Roclh.utils.FileReader;
+import org.Roclh.common.files.FileReader;
 
 import java.io.FileWriter;
 import java.io.IOException;

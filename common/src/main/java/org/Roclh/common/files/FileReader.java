@@ -1,14 +1,11 @@
-package com.Roclh.utils;
+package org.Roclh.common.files;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.Roclh.utils.EncodingUtils.isSpecialSymbol;
 
 public class FileReader {
 
@@ -42,6 +39,10 @@ public class FileReader {
         }
     }
 
+    private static boolean canRead(File file) {
+        return file != null && file.exists() && file.canRead();
+    }
+
     public static Map<String, Integer> countEntrances(String text) {
         Map<String, Integer> entrances = new HashMap<>();
         for (char c : text.toCharArray()) {
@@ -49,9 +50,5 @@ public class FileReader {
             entrances.merge(key, 1, Integer::sum);
         }
         return entrances;
-    }
-
-    private static boolean canRead(File file) {
-        return file != null && file.exists() && file.canRead();
     }
 }
